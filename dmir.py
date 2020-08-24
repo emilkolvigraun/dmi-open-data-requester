@@ -123,6 +123,7 @@ if __name__ == "__main__":
 
     args = sys.argv   
     default_name = 'data'
+    web = False
     get_argument('help', args)
 
     show = get_argument('show', args)
@@ -131,6 +132,9 @@ if __name__ == "__main__":
             webbrowser.open('https://confluence.govcloud.dk/pages/viewpage.action?pageId=26476619')
         elif show == 'parameters':
             webbrowser.open('https://confluence.govcloud.dk/pages/viewpage.action?pageId=26476616')
+        elif show == 'login':
+            webbrowser.open('https://sts.govcloud.dk/auth/realms/dmi/protocol/openid-connect/auth?response_type=code&client_id=dmi-apigw&redirect_uri=https://dmiapi.govcloud.dk&scope=openid')
+        web = True
 
     header = get_argument('default', args)
     if header is None:
@@ -143,7 +147,7 @@ if __name__ == "__main__":
         _format = 'csv'
 
     station = get_argument('station', args)
-    if station is None and header == {}:
+    if station is None and header == {} and web is False:
         print_error()
     header.update({'stationId':station})
 
@@ -174,7 +178,8 @@ if __name__ == "__main__":
         try:
             jsn = r.json() # Extract JSON object
         except:
-            exit('DMI API returned something which cannot be parsed.')
+            print('ERROR | received: %s'%r.content)
+            exit('Try other parameters.')
         
         if _format == 'txt':
             with open(default_name + '.txt', 'w') as f:

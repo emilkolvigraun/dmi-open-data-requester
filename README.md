@@ -15,7 +15,7 @@ A key can be acquired [at DMIs webpage for free data.](https://confluence.govclo
 
 To get an overview of what arguments exist, type `help`:
 ```cmd
-pythin dmir.py --help
+python dmir.py --help
 ```
 
 The following example requests temperature data from a defined period from station 06126 (Arslev). The data is limited to 24 entries and by default exported as a CSV file with name `mydataname`.
